@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
+<h:body>
+
+    <p:growl id="globalmessages" showDetail="true" sticky="true" />
+
+    <h:form>
+        <p:growl id="topbar"/>
+        <p:menubar>
+
+            <p:menuitem value="Главная страница" url="index.xhtml" icon="pi pi-home" />
+
+            <f:facet name="options" >
+
+                <p:commandButton id="loginIcon" type="button" value="Войти" icon="pi pi-user" onclick="PF('dlg-log').show();" style="align-self: stretch" />
+                <p:tooltip id="toolTipFade" for="loginIcon" value="Войти" position="top"/>
+            </f:facet>
+        </p:menubar>
+    </h:form>
+
+    <h:form>
+        <p:dialog header="Авторизация" widgetVar="dlg-log" modal="true" resizable="false" width="min-content" height="min-content" >
+            <f:facet name="header">
+                <h:outputText value="Авторизация" />
+            </f:facet>
+            <p:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                <h:outputText value="Почта: " />
+                <p:panelGrid>
+                    <p:inputText id="email-log" title="Введите почту пользователя"  value="#{authBean.email}" />
+                    <p:tooltip id="email-logToolTip" for="email-log" showEvent="focus" hideEvent="blur" />
+                </p:panelGrid>
+                <h:outputText value="Пароль: " />
+                <p:panelGrid>
+                    <p:password id="pass-log" title="Введите пароль" value="#{authBean.password}" promptLabel="Введите пароль" />
+                    <p:tooltip id="pass-logToolTip" for="pass-log" showEvent="focus" hideEvent="blur" />
+                </p:panelGrid>
+            </p:panelGrid>
+            <p:commandButton type="button" value="Регистрация" icon="pi pi-user-plus" style="background-color: green; border-color: green" onclick="PF('dlg-log').hide();PF('dlg-reg').show();" />
+            <p:commandButton value="Войти" update="globalmessages" icon="pi pi-user" action="#{authBean.doLogin()}"  style="float: right" />
+        </p:dialog>
+    </h:form>
+
+    <h:form>
+        <p:dialog header="Регистрация" widgetVar="dlg-reg" modal="true" resizable="false" width="min-content" height="min-content" >
+            <f:facet name="header">
+                <h:outputText value="Регистрация" />
+            </f:facet>
+            <p:panelGrid id="grid-reg" columns="2" style="margin-bottom:10px" cellpadding="5">
+                <h:outputLabel for="name-reg" value="Имя:" style="font-weight:bold"/>
+                <p:panelGrid>
+                    <p:inputText id="name-reg" title="Введите имя."  value="#{authBean.userName}" required="true" requiredMessage="Необходимо ввести имя." validatorMessage="Имя должно содержать не менее 3 символов.">
+                        <f:validateLength minimum="3" maximum="30" />
+                    </p:inputText>
+                    <p:message for="name-reg" />
+                    <p:tooltip id="name-regToolTip" for="name-reg" showEvent="focus" hideEvent="blur" />
+                </p:panelGrid>
+                <h:outputLabel for="email-reg" value="Почта:" style="font-weight:bold"/>
+                <p:panelGrid>
+                    <p:inputText id="email-reg" title="Введите почту"  value="#{authBean.email}" required="true" requiredMessage="Необходимо ввести почту." validatorMessage="Необходимо ввести корректную почту.">
+                        <f:validateRegex pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                    </p:inputText>
+                    <p:message for="email-reg" />
+                    <p:tooltip id="email-regToolTip" for="email-reg" showEvent="focus" hideEvent="blur" />
+                </p:panelGrid>
+                <h:outputLabel for="pass-reg" value="Пароль:" style="font-weight:bold"/>
+                <p:panelGrid>
+                    <p:password id="pass-reg" title="Пароль должен быть не менее 8 символов и включать цифры, заглавные и строчные буквы латинского алфавита." value="#{authBean.password}" required="true" requiredMessage="Необходимо ввести пароль." promptLabel="Введите пароль" validatorMessage="Некорректный пароль.">
+                        <f:validateRegex pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$" />
+                    </p:password>
+                    <p:message for="pass-reg" />
+                    <p:tooltip id="pass-regToolTip" for="pass-reg" showEvent="focus" hideEvent="blur" style="width: 400px" />
+                </p:panelGrid>
+                <h:outputText value="Администратор:" for="email-reg" style="font-weight:bold" />
+                <p:selectBooleanButton id="admin-reg" value="#{authBean.admin}" onLabel="Да" offLabel="Нет" onIcon="pi pi-check" offIcon="pi pi-times" style="width:60px" />
+            </p:panelGrid>
+            <p:commandButton update="globalmessages,grid-reg" value="Зарегистрироваться" icon="pi pi-user-plus" validateClient="true" action="#{authBean.doRegistry()}" style="float: right;background-color: green; border-color: green" />
+        </p:dialog>
+    </h:form>
+
+</h:body>
+</html>

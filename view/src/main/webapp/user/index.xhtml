@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
+<h:body>
+    <h:form>
+        <p:growl id="topbar"/>
+        <p:menubar>
+            <p:menuitem value="Главная страница" url="user/index.xhtml" icon="pi pi-home" />
+            <p:submenu label="Приемы" icon="pi pi-pencil">
+                <p:menuitem value="Записаться на прием к врачу" action="" icon="pi pi-times" update="messages"/>
+                <p:menuitem value="Посмотреть свои приемы" action="" icon="pi pi-times" update="messages"/>
+            </p:submenu>
+            <p:submenu label="Врачи" icon="pi pi-pencil">
+                <p:menuitem value="Посмотреть список врачей" action="" icon="pi pi-times" update="messages"/>
+            </p:submenu>
+            <p:menuitem value="Свой профиль" action="" icon="pi pi-times" update="messages"/>
+            <f:facet name="options" >
+                <p:commandButton id="loginIcon" value="Выйти" icon="pi pi-user" action="#{authBean.doLogout}" style="align-self: stretch" />
+                <p:tooltip id="toolTipFade" for="loginIcon" value="Выйти" position="top"/>
+            </f:facet>
+        </p:menubar>
+    </h:form>
+    <h:outputText value="User" />
+</h:body>
+</html>
