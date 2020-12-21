@@ -2,3 +2,6 @@
 /ear/target/
 /ejb/target/
 /view/target/
+*.iml
+*/.idea/
+*/target/
